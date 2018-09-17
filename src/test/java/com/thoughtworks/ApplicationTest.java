@@ -26,13 +26,13 @@ class ApplicationTest {
         HashMap<Long, Integer> input = new HashMap<>();
         input.put(1L, 2);
         input.put(2L, 1);
-        List<HashMap> productPrice = application.getProductPrice(products, input);
+        List<HashMap> productInfo = application.getProductPrice(products, input);
 
-        assertEquals(2, productPrice.size());
-        assertEquals(productPrice.get(0).get("productPrice"), 4);
-        assertEquals(productPrice.get(0).get("product"), products.get(0));
-        assertEquals(productPrice.get(1).get("productPrice"), 1600);
-        assertEquals(productPrice.get(1).get("product"), products.get(1));
+        assertEquals(2, productInfo.size());
+        assertEquals(productInfo.get(0).get("productPrice"), 4);
+        assertEquals(productInfo.get(0).get("product"), products.get(0));
+        assertEquals(productInfo.get(1).get("productPrice"), 1600);
+        assertEquals(productInfo.get(1).get("product"), products.get(1));
     }
 
     @Test
@@ -40,8 +40,22 @@ class ApplicationTest {
         HashMap<Long, Integer> input = new HashMap<>();
         input.put(1L, 2);
         input.put(2L, 1);
-        List<HashMap> productPrice = application.getProductPrice(products, input);
-        int orderPrice = application.getOderPrice(productPrice);
+        List<HashMap> productInfo = application.getProductPrice(products, input);
+        int orderPrice = application.getOderPrice(productInfo);
         assertEquals(1604, orderPrice);
+    }
+
+    @Test
+    void should_get_order_info() {
+        HashMap<Long, Integer> input = new HashMap<>();
+        input.put(1L, 2);
+        input.put(2L, 1);
+        List<HashMap> productInfo = application.getProductPrice(products, input);
+        int orderPrice = application.getOderPrice(productInfo);
+        HashMap orderInfo = application.getOrderInfo(productInfo,orderPrice);
+        assertEquals(1, orderInfo.get("id"));
+        assertEquals(1, orderInfo.get("userId"));
+        assertEquals(productInfo, orderInfo.get("products"));
+        assertEquals(1604, orderInfo.get("orderPrice"));
     }
 }
