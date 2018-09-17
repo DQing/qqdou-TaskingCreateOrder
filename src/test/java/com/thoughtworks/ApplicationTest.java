@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 class ApplicationTest {
     private Application application = new Application();
@@ -27,13 +28,10 @@ class ApplicationTest {
         HashMap<Long, Integer> input = new HashMap<>();
         input.put(1L, 2);
         input.put(2L, 1);
-        List<HashMap> productInfo = application.getProductPrice(products, input);
+        List<HashMap> productInfo = application.getProductInfo(products, input);
 
         assertEquals(2, productInfo.size());
-        assertEquals(productInfo.get(0).get("productPrice"), 4);
-        assertEquals(productInfo.get(0).get("product"), products.get(0));
-        assertEquals(productInfo.get(1).get("productPrice"), 1600);
-        assertEquals(productInfo.get(1).get("product"), products.get(1));
+        assertIterableEquals(createProductInfo(),productInfo);
     }
 
     @Test
@@ -41,7 +39,7 @@ class ApplicationTest {
         HashMap<Long, Integer> input = new HashMap<>();
         input.put(1L, 2);
         input.put(2L, 1);
-        List<HashMap> productInfo = application.getProductPrice(products, input);
+        List<HashMap> productInfo = application.getProductInfo(products, input);
         int orderPrice = application.getOderPrice(productInfo);
         assertEquals(1604, orderPrice);
     }
@@ -51,12 +49,34 @@ class ApplicationTest {
         HashMap<Long, Integer> input = new HashMap<>();
         input.put(1L, 2);
         input.put(2L, 1);
-        List<HashMap> productInfo = application.getProductPrice(products, input);
+        List<HashMap> productInfo = application.getProductInfo(products, input);
         int orderPrice = application.getOderPrice(productInfo);
         HashMap orderInfo = application.getOrderInfo(productInfo, orderPrice, user);
         assertEquals(1, orderInfo.get("id"));
         assertEquals(1L, orderInfo.get("userId"));
         assertEquals(productInfo, orderInfo.get("products"));
         assertEquals(1604, orderInfo.get("orderPrice"));
+    }
+
+    @Test
+    void should_create_oder_info() {
+        HashMap<Long, Integer> input = new HashMap<>();
+        input.put(1L, 2);
+        input.put(2L, 1);
+        HashMap orderInfo = application.createOrderInfo(products, input, user);
+        assertEquals(1, orderInfo.get("id"));
+        assertEquals(1L, orderInfo.get("userId"));
+        assertEquals(createProductInfo(), orderInfo.get("products"));
+        assertEquals(1604, orderInfo.get("orderPrice"));
+    }
+
+    private List<HashMap> createProductInfo() {
+        HashMap map = new HashMap();
+        map.put("productPrice", 4);
+        map.put("product", products.get(0));
+        HashMap anotherMap = new HashMap();
+        anotherMap.put("productPrice", 1600);
+        anotherMap.put("product", products.get(1));
+        return Arrays.asList(map, anotherMap);
     }
 }

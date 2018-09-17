@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 class Application {
-    List<HashMap> getProductPrice(List<Product> products, HashMap<Long, Integer> input) {
+    List<HashMap> getProductInfo(List<Product> products, HashMap<Long, Integer> input) {
         List<HashMap> result = new ArrayList<>();
         products.forEach(product -> {
             long productId = product.getId();
@@ -35,5 +35,11 @@ class Application {
         result.put("products", productInfo);
         result.put("orderPrice", orderPrice);
         return result;
+    }
+
+    HashMap createOrderInfo(List<Product> products, HashMap<Long, Integer> input, User user) {
+        List<HashMap> productInfo = getProductInfo(products, input);
+        int oderPrice = getOderPrice(productInfo);
+       return getOrderInfo(productInfo, oderPrice, user);
     }
 }
