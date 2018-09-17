@@ -34,4 +34,14 @@ class ApplicationTest {
         assertEquals(productPrice.get(1).get("productPrice"), 1600);
         assertEquals(productPrice.get(1).get("product"), products.get(1));
     }
+
+    @Test
+    void should_get_order_total_price() {
+        HashMap<Long, Integer> input = new HashMap<>();
+        input.put(1L, 2);
+        input.put(2L, 1);
+        List<HashMap> productPrice = application.getProductPrice(products, input);
+        int orderPrice = application.getOderPrice(productPrice);
+        assertEquals(1604, orderPrice);
+    }
 }

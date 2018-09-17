@@ -19,4 +19,12 @@ class Application {
         });
         return result;
     }
+
+    int getOderPrice(List<HashMap> productPrice) {
+        int totalPrice = 0;
+        for (HashMap hashMap : productPrice) {
+            totalPrice += (Integer) hashMap.get("productPrice");
+        }
+        return totalPrice;
+    }
 }
