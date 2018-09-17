@@ -29,7 +29,7 @@ class Application {
     }
 
     HashMap getOrderInfo(List<HashMap> productInfo, int orderPrice, User user) {
-        HashMap result = new HashMap();
+        HashMap<String, Object> result = new HashMap<>();
         result.put("id", 1);
         result.put("userId", user.getId());
         result.put("products", productInfo);

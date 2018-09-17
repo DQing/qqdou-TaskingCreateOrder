@@ -11,15 +11,11 @@ class Product {
         this.price = price;
     }
 
-    public long getId() {
+    long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getPrice() {
+    int getPrice() {
         return price;
     }
 }

@@ -14,6 +14,7 @@ class ApplicationTest {
     private Application application = new Application();
     private List<Product> products;
     private User user;
+
     @BeforeEach
     void init() {
         products = Arrays.asList(new Product(1, "pencil", 2),
@@ -23,6 +24,7 @@ class ApplicationTest {
                 new Product(5, "table", 100));
         user = new User(1, "zhang san");
     }
+
     @Test
     void should_get_products_totalPrice() {
         HashMap<Long, Integer> input = new HashMap<>();
@@ -31,7 +33,7 @@ class ApplicationTest {
         List<HashMap> productInfo = application.getProductInfo(products, input);
 
         assertEquals(2, productInfo.size());
-        assertIterableEquals(createProductInfo(),productInfo);
+        assertIterableEquals(createProductInfo(), productInfo);
     }
 
     @Test
@@ -71,10 +73,10 @@ class ApplicationTest {
     }
 
     private List<HashMap> createProductInfo() {
-        HashMap map = new HashMap();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("productPrice", 4);
         map.put("product", products.get(0));
-        HashMap anotherMap = new HashMap();
+        HashMap<String, Object> anotherMap = new HashMap<>();
         anotherMap.put("productPrice", 1600);
         anotherMap.put("product", products.get(1));
         return Arrays.asList(map, anotherMap);
