@@ -3,7 +3,6 @@ package com.thoughtworks;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ApplicationTest {
     private Application application = new Application();
     private List<Product> products;
+    private User user;
     @BeforeEach
     void init() {
         products = Arrays.asList(new Product(1, "pencil", 2),
@@ -20,6 +20,7 @@ class ApplicationTest {
                 new Product(3, "cake", 10),
                 new Product(4, "water", 3),
                 new Product(5, "table", 100));
+        user = new User(1, "zhang san");
     }
     @Test
     void should_get_products_totalPrice() {
@@ -52,9 +53,9 @@ class ApplicationTest {
         input.put(2L, 1);
         List<HashMap> productInfo = application.getProductPrice(products, input);
         int orderPrice = application.getOderPrice(productInfo);
-        HashMap orderInfo = application.getOrderInfo(productInfo,orderPrice);
+        HashMap orderInfo = application.getOrderInfo(productInfo, orderPrice, user);
         assertEquals(1, orderInfo.get("id"));
-        assertEquals(1, orderInfo.get("userId"));
+        assertEquals(1L, orderInfo.get("userId"));
         assertEquals(productInfo, orderInfo.get("products"));
         assertEquals(1604, orderInfo.get("orderPrice"));
     }

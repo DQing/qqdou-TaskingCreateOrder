@@ -28,10 +28,10 @@ class Application {
         return totalPrice;
     }
 
-    HashMap getOrderInfo(List<HashMap> productInfo, int orderPrice) {
+    HashMap getOrderInfo(List<HashMap> productInfo, int orderPrice, User user) {
         HashMap result = new HashMap();
         result.put("id", 1);
-        result.put("userId", 1);
+        result.put("userId", user.getId());
         result.put("products", productInfo);
         result.put("orderPrice", orderPrice);
         return result;
