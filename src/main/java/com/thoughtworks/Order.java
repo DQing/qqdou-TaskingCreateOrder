@@ -13,7 +13,7 @@ public class Order {
     private Timestamp timestamp;
     private OrderStatus status;
 
-    public Order(UUID id, UUID userId, List<HashMap> products, int orderPrice, Timestamp timestamp, OrderStatus status) {
+    Order(UUID id, UUID userId, List<HashMap> products, int orderPrice, Timestamp timestamp, OrderStatus status) {
         this.id = id;
         this.userId = userId;
         this.products = products;
@@ -22,19 +22,19 @@ public class Order {
         this.status = status;
     }
 
-    public UUID getId() {
+    UUID getId() {
         return id;
     }
 
-    public UUID getUserId() {
+    UUID getUserId() {
         return userId;
     }
 
-    public List<HashMap> getProducts() {
+    List<HashMap> getProducts() {
         return products;
     }
 
-    public int getOrderPrice() {
+    int getOrderPrice() {
         return orderPrice;
     }
 
@@ -42,7 +42,7 @@ public class Order {
         return timestamp;
     }
 
-    public OrderStatus getStatus() {
+    OrderStatus getStatus() {
         return status;
     }
 

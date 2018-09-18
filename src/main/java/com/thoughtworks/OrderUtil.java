@@ -5,25 +5,25 @@ import java.util.*;
 
 class OrderUtil {
 
-    Order createOrderInfo(List<Product> products, HashMap<Long, Integer> input, User user, UUID orderId) {
-        if (products == null || input == null || user == null || orderId == null) {
+    Order createOrderInfo(List<Product> products, HashMap<Long, Integer> productMap, User user, UUID orderId) {
+        if (products == null || productMap == null || user == null || orderId == null) {
             throw new IllegalArgumentException();
         }
-        List<HashMap> productInfo = getProductInfo(products, input);
+        List<HashMap> productInfo = getProductInfo(products, productMap);
         int oderPrice = getOderPrice(productInfo);
         return getOrderInfo(productInfo, oderPrice, user, orderId);
     }
 
-    List<HashMap> getProductInfo(List<Product> products, HashMap<Long, Integer> idCountMap) {
-        if (products == null || idCountMap == null) {
+    List<HashMap> getProductInfo(List<Product> products, HashMap<Long, Integer> productMap) {
+        if (products == null || productMap == null) {
             throw new IllegalArgumentException();
         }
         List<HashMap> result = new ArrayList<>();
         products.forEach(product -> {
             long productId = product.getId();
-            if (idCountMap.containsKey(productId)) {
+            if (productMap.containsKey(productId)) {
                 HashMap<String, Object> map = new HashMap<>();
-                Integer productCount = idCountMap.get(productId);
+                Integer productCount = productMap.get(productId);
                 map.put("productTotalPrice", product.getPrice() * productCount);
                 map.put("productCount", productCount);
                 map.put("product", product);
@@ -37,11 +37,11 @@ class OrderUtil {
         if (productInfo == null) {
             throw new IllegalArgumentException();
         }
-        int totalPrice = 0;
+        int orderPrice = 0;
         for (HashMap hashMap : productInfo) {
-            totalPrice += (Integer) hashMap.get("productTotalPrice");
+            orderPrice += (Integer) hashMap.get("productTotalPrice");
         }
-        return totalPrice;
+        return orderPrice;
     }
 
     Order getOrderInfo(List<HashMap> productInfo, int orderPrice, User user, UUID orderId) {

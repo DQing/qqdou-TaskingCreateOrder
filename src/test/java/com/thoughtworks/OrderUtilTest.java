@@ -30,10 +30,10 @@ class OrderUtilTest {
 
     @Test
     void should_get_products_totalPrice() {
-        HashMap<Long, Integer> idCountMap = new HashMap<>();
-        idCountMap.put(1L, 2);
-        idCountMap.put(2L, 1);
-        List<HashMap> productInfo = orderUtil.getProductInfo(products, idCountMap);
+        HashMap<Long, Integer> productMap = new HashMap<>();
+        productMap.put(1L, 2);
+        productMap.put(2L, 1);
+        List<HashMap> productInfo = orderUtil.getProductInfo(products, productMap);
 
         assertEquals(2, productInfo.size());
         assertIterableEquals(createProductInfo(), productInfo);
