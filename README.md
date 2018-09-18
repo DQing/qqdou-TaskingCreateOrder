@@ -38,4 +38,6 @@
 ```
 
 4. 完成*分组排序* TDD实现，要求有Tasking图，小步提交
+![](https://raw.githubusercontent.com/tw-graduate-step-up/qqdou-TaskingCreateOrder/master/41537237553_.pic.jpg)
 5. 完成*创建订单* TDD实现，要求有Tasking图，小步提交
+![](https://raw.githubusercontent.com/tw-graduate-step-up/qqdou-TaskingCreateOrder/master/51537237572_.pic.jpg)
