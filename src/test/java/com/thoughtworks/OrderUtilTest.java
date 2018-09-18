@@ -65,15 +65,15 @@ class OrderUtilTest {
 
     @Test
     void should_create_order_info() {
-        HashMap<Long, Integer> idCountMap = new HashMap<>();
-        idCountMap.put(1L, 2);
-        idCountMap.put(2L, 1);
+        HashMap<Long, Integer> productMap = new HashMap<>();
+        productMap.put(1L, 2);
+        productMap.put(2L, 1);
 
         OrderUtil mock = mock(OrderUtil.class);
         when(mock.generateOrderId()).thenReturn(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"));
         UUID orderId = mock.generateOrderId();
 
-        Order orderInfo = orderUtil.createOrderInfo(products, idCountMap, user,orderId);
+        Order orderInfo = orderUtil.createOrderInfo(products, productMap, user,orderId);
 
         assertEquals(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"), orderInfo.getId());
         assertEquals(UUID.fromString("aab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"), orderInfo.getUserId());
