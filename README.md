@@ -8,9 +8,7 @@
 + 仓库配置：repositories{ }
 + jdk版本：sourceCompatibility = 1.8
 + 源文件路径配置：sourceSets { }
-+ 测试：test{}
 + gradle build依赖：buildscript { }
-+ 依赖范围的配置：configurations{}
 + group 'thoughtworks.example.cn'
 + version '1.0-SNAPSHOT'
 ```

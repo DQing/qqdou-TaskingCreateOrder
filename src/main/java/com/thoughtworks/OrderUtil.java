@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-class Application {
+class OrderUtil {
 
     HashMap createOrderInfo(List<Product> products, HashMap<Long, Integer> input, User user) {
         List<HashMap> productInfo = getProductInfo(products, input);
