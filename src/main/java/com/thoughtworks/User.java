@@ -1,15 +1,17 @@
 package com.thoughtworks;
 
+import java.util.UUID;
+
 class User {
-    private long id;
+    private UUID id;
     private String name;
 
-    User(long id, String name) {
+    User(UUID id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    long getId() {
+    UUID getId() {
         return id;
     }
 }

@@ -1,10 +1,11 @@
 package com.thoughtworks;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 class OrderUtil {
 
-    HashMap createOrderInfo(List<Product> products, HashMap<Long, Integer> input, User user, UUID orderId) {
+    Order createOrderInfo(List<Product> products, HashMap<Long, Integer> input, User user, UUID orderId) {
         List<HashMap> productInfo = getProductInfo(products, input);
         int oderPrice = getOderPrice(productInfo);
         return getOrderInfo(productInfo, oderPrice, user, orderId);
@@ -34,13 +35,9 @@ class OrderUtil {
         return totalPrice;
     }
 
-    HashMap getOrderInfo(List<HashMap> productInfo, int orderPrice, User user, UUID orderId) {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("id", orderId);
-        result.put("userId", user.getId());
-        result.put("products", productInfo);
-        result.put("orderPrice", orderPrice);
-        return result;
+    Order getOrderInfo(List<HashMap> productInfo, int orderPrice, User user, UUID orderId) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        return new Order(orderId,user.getId(),productInfo,orderPrice,timestamp,OrderStatus.created);
     }
 
     public UUID generateOrderId() {

@@ -26,7 +26,7 @@ class OrderUtilTest {
                 new Product(3, "cake", 10),
                 new Product(4, "water", 3),
                 new Product(5, "table", 100));
-        user = new User(1, "zhang san");
+        user = new User(UUID.fromString("aab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"), "zhang san");
     }
 
     @Test
@@ -56,11 +56,12 @@ class OrderUtilTest {
         when(mock.generateOrderId()).thenReturn(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"));
         UUID orderId = mock.generateOrderId();
 
-        HashMap orderInfo = orderUtil.getOrderInfo(productInfo, orderPrice, user, orderId);
-        assertEquals(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"), orderInfo.get("id"));
-        assertEquals(user.getId(), orderInfo.get("userId"));
-        assertEquals(productInfo, orderInfo.get("products"));
-        assertEquals(orderPrice, orderInfo.get("orderPrice"));
+        Order orderInfo = orderUtil.getOrderInfo(productInfo, orderPrice, user, orderId);
+        assertEquals(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"), orderInfo.getId());
+        assertEquals(user.getId(), orderInfo.getUserId());
+        assertEquals(productInfo, orderInfo.getProducts());
+        assertEquals(OrderStatus.created, orderInfo.getStatus());
+        assertEquals(orderPrice, orderInfo.getOrderPrice());
     }
 
     @Test
@@ -73,12 +74,12 @@ class OrderUtilTest {
         when(mock.generateOrderId()).thenReturn(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"));
         UUID orderId = mock.generateOrderId();
 
-        HashMap orderInfo = orderUtil.createOrderInfo(products, idCountMap, user,orderId);
+        Order orderInfo = orderUtil.createOrderInfo(products, idCountMap, user,orderId);
 
-        assertEquals(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"), orderInfo.get("id"));
-        assertEquals(1L, orderInfo.get("userId"));
-        assertEquals(createProductInfo(), orderInfo.get("products"));
-        assertEquals(1604, orderInfo.get("orderPrice"));
+        assertEquals(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"), orderInfo.getId());
+        assertEquals(UUID.fromString("aab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"), orderInfo.getUserId());
+        assertEquals(createProductInfo(), orderInfo.getProducts());
+        assertEquals(1604, orderInfo.getOrderPrice());
     }
 
     private List<HashMap> createProductInfo() {
