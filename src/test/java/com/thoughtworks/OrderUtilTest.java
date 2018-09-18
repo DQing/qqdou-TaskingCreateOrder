@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
+
+import static org.mockito.Mockito.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
@@ -14,6 +17,7 @@ class OrderUtilTest {
     private OrderUtil orderUtil = new OrderUtil();
     private List<Product> products;
     private User user;
+
 
     @BeforeEach
     void init() {
@@ -27,10 +31,10 @@ class OrderUtilTest {
 
     @Test
     void should_get_products_totalPrice() {
-        HashMap<Long, Integer> input = new HashMap<>();
-        input.put(1L, 2);
-        input.put(2L, 1);
-        List<HashMap> productInfo = orderUtil.getProductInfo(products, input);
+        HashMap<Long, Integer> idCountMap = new HashMap<>();
+        idCountMap.put(1L, 2);
+        idCountMap.put(2L, 1);
+        List<HashMap> productInfo = orderUtil.getProductInfo(products, idCountMap);
 
         assertEquals(2, productInfo.size());
         assertIterableEquals(createProductInfo(), productInfo);
@@ -38,37 +42,40 @@ class OrderUtilTest {
 
     @Test
     void should_get_order_total_price() {
-        HashMap<Long, Integer> input = new HashMap<>();
-        input.put(1L, 2);
-        input.put(2L, 1);
-        List<HashMap> productInfo = orderUtil.getProductInfo(products, input);
-
+        List<HashMap> productInfo = createProductInfo();
         int orderPrice = orderUtil.getOderPrice(productInfo);
         assertEquals(1604, orderPrice);
     }
 
     @Test
     void should_get_order_info() {
-        HashMap<Long, Integer> input = new HashMap<>();
-        input.put(1L, 2);
-        input.put(2L, 1);
-        List<HashMap> productInfo = orderUtil.getProductInfo(products, input);
-        int orderPrice = orderUtil.getOderPrice(productInfo);
+        List<HashMap> productInfo = createProductInfo();
+        int orderPrice = 1604;
 
-        HashMap orderInfo = orderUtil.getOrderInfo(productInfo, orderPrice, user);
-        assertEquals(1, orderInfo.get("id"));
-        assertEquals(1L, orderInfo.get("userId"));
+        OrderUtil mock = mock(OrderUtil.class);
+        when(mock.generateOrderId()).thenReturn(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"));
+        UUID orderId = mock.generateOrderId();
+
+        HashMap orderInfo = orderUtil.getOrderInfo(productInfo, orderPrice, user, orderId);
+        assertEquals(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"), orderInfo.get("id"));
+        assertEquals(user.getId(), orderInfo.get("userId"));
         assertEquals(productInfo, orderInfo.get("products"));
-        assertEquals(1604, orderInfo.get("orderPrice"));
+        assertEquals(orderPrice, orderInfo.get("orderPrice"));
     }
 
     @Test
     void should_create_order_info() {
-        HashMap<Long, Integer> input = new HashMap<>();
-        input.put(1L, 2);
-        input.put(2L, 1);
-        HashMap orderInfo = orderUtil.createOrderInfo(products, input, user);
-        assertEquals(1, orderInfo.get("id"));
+        HashMap<Long, Integer> idCountMap = new HashMap<>();
+        idCountMap.put(1L, 2);
+        idCountMap.put(2L, 1);
+
+        OrderUtil mock = mock(OrderUtil.class);
+        when(mock.generateOrderId()).thenReturn(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"));
+        UUID orderId = mock.generateOrderId();
+
+        HashMap orderInfo = orderUtil.createOrderInfo(products, idCountMap, user,orderId);
+
+        assertEquals(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"), orderInfo.get("id"));
         assertEquals(1L, orderInfo.get("userId"));
         assertEquals(createProductInfo(), orderInfo.get("products"));
         assertEquals(1604, orderInfo.get("orderPrice"));

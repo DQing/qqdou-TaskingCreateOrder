@@ -1,26 +1,24 @@
 package com.thoughtworks;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 class OrderUtil {
 
-    HashMap createOrderInfo(List<Product> products, HashMap<Long, Integer> input, User user) {
+    HashMap createOrderInfo(List<Product> products, HashMap<Long, Integer> input, User user, UUID orderId) {
         List<HashMap> productInfo = getProductInfo(products, input);
         int oderPrice = getOderPrice(productInfo);
-        return getOrderInfo(productInfo, oderPrice, user);
+        return getOrderInfo(productInfo, oderPrice, user, orderId);
     }
 
-    List<HashMap> getProductInfo(List<Product> products, HashMap<Long, Integer> input) {
+    List<HashMap> getProductInfo(List<Product> products, HashMap<Long, Integer> idCountMap) {
         List<HashMap> result = new ArrayList<>();
         products.forEach(product -> {
             long productId = product.getId();
-            if (input.containsKey(productId)) {
+            if (idCountMap.containsKey(productId)) {
                 HashMap<String, Object> map = new HashMap<>();
-                int productPrice = product.getPrice() * input.get(productId);
-                map.put("productTotalPrice", productPrice);
-                map.put("productCount", input.get(productId));
+                Integer productCount = idCountMap.get(productId);
+                map.put("productTotalPrice", product.getPrice() * productCount);
+                map.put("productCount", productCount);
                 map.put("product", product);
                 result.add(map);
             }
@@ -36,12 +34,16 @@ class OrderUtil {
         return totalPrice;
     }
 
-    HashMap getOrderInfo(List<HashMap> productInfo, int orderPrice, User user) {
+    HashMap getOrderInfo(List<HashMap> productInfo, int orderPrice, User user, UUID orderId) {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("id", 1);
+        result.put("id", orderId);
         result.put("userId", user.getId());
         result.put("products", productInfo);
         result.put("orderPrice", orderPrice);
         return result;
+    }
+
+    public UUID generateOrderId() {
+        return UUID.randomUUID();
     }
 }
