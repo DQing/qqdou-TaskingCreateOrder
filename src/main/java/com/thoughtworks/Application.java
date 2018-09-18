@@ -5,6 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 
 class Application {
+
+    HashMap createOrderInfo(List<Product> products, HashMap<Long, Integer> input, User user) {
+        List<HashMap> productInfo = getProductInfo(products, input);
+        int oderPrice = getOderPrice(productInfo);
+        return getOrderInfo(productInfo, oderPrice, user);
+    }
+
     List<HashMap> getProductInfo(List<Product> products, HashMap<Long, Integer> input) {
         List<HashMap> result = new ArrayList<>();
         products.forEach(product -> {
@@ -12,7 +19,8 @@ class Application {
             if (input.containsKey(productId)) {
                 HashMap<String, Object> map = new HashMap<>();
                 int productPrice = product.getPrice() * input.get(productId);
-                map.put("productPrice", productPrice);
+                map.put("productTotalPrice", productPrice);
+                map.put("productCount", input.get(productId));
                 map.put("product", product);
                 result.add(map);
             }
@@ -20,10 +28,10 @@ class Application {
         return result;
     }
 
-    int getOderPrice(List<HashMap> productPrice) {
+    int getOderPrice(List<HashMap> productInfo) {
         int totalPrice = 0;
-        for (HashMap hashMap : productPrice) {
-            totalPrice += (Integer) hashMap.get("productPrice");
+        for (HashMap hashMap : productInfo) {
+            totalPrice += (Integer) hashMap.get("productTotalPrice");
         }
         return totalPrice;
     }
@@ -35,11 +43,5 @@ class Application {
         result.put("products", productInfo);
         result.put("orderPrice", orderPrice);
         return result;
-    }
-
-    HashMap createOrderInfo(List<Product> products, HashMap<Long, Integer> input, User user) {
-        List<HashMap> productInfo = getProductInfo(products, input);
-        int oderPrice = getOderPrice(productInfo);
-       return getOrderInfo(productInfo, oderPrice, user);
     }
 }

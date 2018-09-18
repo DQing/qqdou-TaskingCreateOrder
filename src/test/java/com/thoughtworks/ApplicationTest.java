@@ -42,6 +42,7 @@ class ApplicationTest {
         input.put(1L, 2);
         input.put(2L, 1);
         List<HashMap> productInfo = application.getProductInfo(products, input);
+
         int orderPrice = application.getOderPrice(productInfo);
         assertEquals(1604, orderPrice);
     }
@@ -53,6 +54,7 @@ class ApplicationTest {
         input.put(2L, 1);
         List<HashMap> productInfo = application.getProductInfo(products, input);
         int orderPrice = application.getOderPrice(productInfo);
+
         HashMap orderInfo = application.getOrderInfo(productInfo, orderPrice, user);
         assertEquals(1, orderInfo.get("id"));
         assertEquals(1L, orderInfo.get("userId"));
@@ -61,7 +63,7 @@ class ApplicationTest {
     }
 
     @Test
-    void should_create_oder_info() {
+    void should_create_order_info() {
         HashMap<Long, Integer> input = new HashMap<>();
         input.put(1L, 2);
         input.put(2L, 1);
@@ -74,10 +76,12 @@ class ApplicationTest {
 
     private List<HashMap> createProductInfo() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("productPrice", 4);
+        map.put("productTotalPrice", 4);
+        map.put("productCount", 2);
         map.put("product", products.get(0));
         HashMap<String, Object> anotherMap = new HashMap<>();
-        anotherMap.put("productPrice", 1600);
+        anotherMap.put("productTotalPrice", 1600);
+        anotherMap.put("productCount", 1);
         anotherMap.put("product", products.get(1));
         return Arrays.asList(map, anotherMap);
     }
