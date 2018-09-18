@@ -8,10 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class OrderUtilTest {
     private OrderUtil orderUtil = new OrderUtil();
@@ -92,5 +91,13 @@ class OrderUtilTest {
         anotherMap.put("productCount", 1);
         anotherMap.put("product", products.get(1));
         return Arrays.asList(map, anotherMap);
+    }
+
+    @Test
+    void should_throw_exception_when_argument_is_invalid() {
+        assertThrows(IllegalArgumentException.class, () -> orderUtil.createOrderInfo(null, null, null, null));
+        assertThrows(IllegalArgumentException.class, () -> orderUtil.getOderPrice(null));
+        assertThrows(IllegalArgumentException.class, () -> orderUtil.getProductInfo(null, null));
+        assertThrows(IllegalArgumentException.class, () -> orderUtil.getOderPrice(null));
     }
 }
