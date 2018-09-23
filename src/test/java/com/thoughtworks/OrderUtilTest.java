@@ -51,7 +51,7 @@ class OrderUtilTest {
         List<HashMap> productInfo = createProductInfo();
         int orderPrice = 1604;
 
-        OrderUtil mock = mock(OrderUtil.class);
+        GenerateId mock = mock(GenerateId.class);
         when(mock.generateOrderId()).thenReturn(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"));
         UUID orderId = mock.generateOrderId();
 
@@ -69,13 +69,7 @@ class OrderUtilTest {
         productMap.put(1L, 2);
         productMap.put(2L, 1);
 
-        OrderUtil mock = mock(OrderUtil.class);
-        when(mock.generateOrderId()).thenReturn(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"));
-        UUID orderId = mock.generateOrderId();
-
-        Order orderInfo = orderUtil.createOrderInfo(products, productMap, user,orderId);
-
-        assertEquals(UUID.fromString("bab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"), orderInfo.getId());
+        Order orderInfo = orderUtil.createOrderInfo(products, productMap, user);
         assertEquals(UUID.fromString("aab9b263-b837-4e2a-b5bb-5e5a1c6b1bf3"), orderInfo.getUserId());
         assertEquals(createProductInfo(), orderInfo.getProducts());
         assertEquals(1604, orderInfo.getOrderPrice());
@@ -95,7 +89,7 @@ class OrderUtilTest {
 
     @Test
     void should_throw_exception_when_argument_is_invalid() {
-        assertThrows(IllegalArgumentException.class, () -> orderUtil.createOrderInfo(null, null, null, null));
+        assertThrows(IllegalArgumentException.class, () -> orderUtil.createOrderInfo(null, null, null));
         assertThrows(IllegalArgumentException.class, () -> orderUtil.getOderPrice(null));
         assertThrows(IllegalArgumentException.class, () -> orderUtil.getProductInfo(null, null));
         assertThrows(IllegalArgumentException.class, () -> orderUtil.getOderPrice(null));

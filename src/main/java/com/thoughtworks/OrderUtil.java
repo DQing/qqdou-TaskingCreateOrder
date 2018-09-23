@@ -5,10 +5,12 @@ import java.util.*;
 
 class OrderUtil {
 
-    Order createOrderInfo(List<Product> products, HashMap<Long, Integer> productMap, User user, UUID orderId) {
-        if (products == null || productMap == null || user == null || orderId == null) {
+    Order createOrderInfo(List<Product> products, HashMap<Long, Integer> productMap, User user) {
+        if (products == null || productMap == null || user == null) {
             throw new IllegalArgumentException();
         }
+        GenerateId generateId = new GenerateId();
+        UUID orderId = generateId.generateOrderId();
         List<HashMap> productInfo = getProductInfo(products, productMap);
         int oderPrice = getOderPrice(productInfo);
         return getOrderInfo(productInfo, oderPrice, user, orderId);
@@ -50,9 +52,5 @@ class OrderUtil {
         }
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         return new Order(orderId,user.getId(),productInfo,orderPrice,timestamp,OrderStatus.created);
-    }
-
-    UUID generateOrderId() {
-        return UUID.randomUUID();
     }
 }
